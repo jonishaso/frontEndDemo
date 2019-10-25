@@ -1,4 +1,4 @@
-import jsonHolderRequest from '../api'
+import { jsonPlaceHolder } from '../api'
 
 export const addNewBlog = blog => ({
 	type: 'ADD_BLOG',
@@ -8,7 +8,7 @@ export const addNewBlog = blog => ({
 export const removeBlog = id => ({ type: 'REMOVE_BLOG', payload: id })
 
 export const initBlog = () => async dispatch => {
-	let res = await jsonHolderRequest.get('/posts')
+	let res = await jsonPlaceHolder.get('/posts')
 	dispatch({
 		type: 'INIT_BLOG',
 		payload: res

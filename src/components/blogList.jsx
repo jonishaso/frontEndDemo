@@ -1,27 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Blog from './blogItem'
+import Grid from '@material-ui/core/Grid'
 import { initBlog } from '../actions/index'
 
-/* const BlogList = props => {
-
-	console.log(props)
-	return <div>Blog List</div>
-} */
-
 class BlogList extends React.Component {
-  componentDidMount(){
-    this.props.initBlog()
-  }
+	componentDidMount() {
+		this.props.initBlog()
+	}
 	render() {
-    console.log(this.props)
-		return <div>Blog List</div>
+		const { blogs } = this.props
+		return (
+			<Grid container spacing={3}>
+				{blogs.length === 0 ? (
+					<h1>loading</h1>
+				) : (
+					blogs.map(b => (
+						<Blog key={b.id} id={b.id} userId={b.userId} title={b.title} body={b.body} />
+					))
+				)}
+			</Grid>
+		)
 	}
 }
 
 const mapStateToProps = state => {
-	console.log('state:')
-	console.log(state)
-	return { blogs: state.BlogList }
+	return { blogs: state.blogList }
 }
 
 export default connect(

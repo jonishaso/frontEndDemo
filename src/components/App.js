@@ -1,13 +1,13 @@
 import React from 'react';
 import BlogList from './blogList'
-import './App.css';
+import {Container} from '@material-ui/core'
 
 
 function App() {
   return (
-    <div className="App">
+    <Container>
       <BlogList />
-    </div>
+    </Container>
   );
 }
 
