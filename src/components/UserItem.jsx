@@ -17,7 +17,7 @@ const UserDetail = ({ user }) => {
 		<div>
 			<Paper className={classes.root}>
 				<Typography variant="h5" component="h3">
-					{user.name}
+					Author: {user.name}
 				</Typography>
 				<Typography component="p">{user.email}</Typography>
 			</Paper>
@@ -31,7 +31,7 @@ class User extends React.Component {
 	}
 	render() {
 		// return <UserDetail user={this.props.user} />
-		return <Typography component="p">{this.props.userInfo.name}</Typography>
+		return <Typography component="p">Author: {this.props.userInfo.name}</Typography>
 	}
 }
 

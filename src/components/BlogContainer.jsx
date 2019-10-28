@@ -1,10 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { initBlog } from '../actions/index'
-import BlogList from './blogList'
-import Grid from '@material-ui/core/Grid'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import Button from '@material-ui/core/Button'
+import BlogList from './BlogList'
+import PageButtons from './PageButtons'
+
 const ITEMS_PER_PAGE = 9
 
 class BlogContainer extends React.Component {
@@ -12,22 +11,26 @@ class BlogContainer extends React.Component {
 	componentDidMount() {
 		this.props.initBlog()
 	}
-	handleNext = () => {
+	moveForward = () => {
 		let blogLen = this.props.blogs.length
 		let next = this.state.nextItemIndex + ITEMS_PER_PAGE
 		let first = this.state.nextItemIndex
-		next = next >= blogLen ? blogLen : next
-		first = first >= blogLen - ITEMS_PER_PAGE ? blogLen - ITEMS_PER_PAGE : first
+		if (next >= blogLen) {
+			next = blogLen
+			first = blogLen - ITEMS_PER_PAGE
+		}
 		this.setState({
 			nextItemIndex: next,
 			firstItemIndex: first
 		})
 	}
-	handlePrevious = () => {
-		let next = this.state.firstItemIndex - ITEMS_PER_PAGE
-		let first = this.state.nextItemIndex - ITEMS_PER_PAGE
-		first = first <= 0 ? 0 : first
-		next = next <= 9 ? 9 : next
+	moveAfterward = () => {
+		let next = this.state.nextItemIndex - ITEMS_PER_PAGE
+		let first = this.state.firstItemIndex - ITEMS_PER_PAGE
+		if (first <= 0) {
+			next = 9
+			first = 0
+		}
 		this.setState({
 			nextItemIndex: next,
 			firstItemIndex: first
@@ -42,14 +45,7 @@ class BlogContainer extends React.Component {
 		return (
 			<React.Fragment>
 				{this.props.blogs.length > 0 ? <BlogList blogs={pageBlogs} /> : <h1>Loading</h1>}
-				<Grid container alignItems="center">
-					<Grid item>
-						<ButtonGroup color="primary" aria-label="outlined primary button group">
-							<Button onClick={this.handlePrevious}>{'<<'}</Button>
-							<Button onClick={this.handleNext}>{'>>'}</Button>
-						</ButtonGroup>
-					</Grid>
-				</Grid>
+				<PageButtons forward={this.moveAfterward} afterward={this.moveForward} />
 			</React.Fragment>
 		)
 	}
