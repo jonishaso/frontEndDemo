@@ -1,16 +1,10 @@
-import React from 'react';
+import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import BlogContainer from './BlogContainer'
 import User from './UserItem'
-import {Container} from '@material-ui/core'
 
-
-function App() {
-  return (
-    <Container maxWidth="md">
-      <BlogContainer />
-      {/* <User /> */}
-    </Container>
-  );
-}
-
-export default App;
+export default () => (
+	<Router>
+		<Route path="/" component={BlogContainer} />
+	</Router>
+)

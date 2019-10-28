@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { initBlog } from '../actions/index'
+import { Container } from '@material-ui/core'
 import BlogList from './BlogList'
 import PageButtons from './PageButtons'
 
@@ -43,10 +44,10 @@ class BlogContainer extends React.Component {
 		if (this.props.blogs.length > 0)
 			pageBlogs = this.props.blogs.slice(firstItemIndex, nextItemIndex)
 		return (
-			<React.Fragment>
+			<Container maxWidth="md">
 				{this.props.blogs.length > 0 ? <BlogList blogs={pageBlogs} /> : <h1>Loading</h1>}
 				<PageButtons forward={this.moveAfterward} afterward={this.moveForward} />
-			</React.Fragment>
+			</Container>
 		)
 	}
 }
