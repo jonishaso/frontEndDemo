@@ -1,5 +1,5 @@
 import React from 'react';
-import BlogList from './blogList'
+import BlogContainer from './BlogContainer'
 import User from './UserItem'
 import {Container} from '@material-ui/core'
 
@@ -7,7 +7,7 @@ import {Container} from '@material-ui/core'
 function App() {
   return (
     <Container maxWidth="md">
-      <BlogList />
+      <BlogContainer />
       {/* <User /> */}
     </Container>
   );

@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 	},
 	textContent: {
 		height: 185,
-		overflow:'scroll'
+		overflow: 'scroll'
 	}
 })
 
@@ -39,7 +39,7 @@ const BlogDetail = ({ id, userId, title, body }) => {
 					/>
 					<CardContent className={classes.textContent}>
 						<Typography gutterBottom variant="h5" component="h4">
-							{title}
+							{`#${id} - ${title}`}
 						</Typography>
 						<Typography variant="body2" color="textSecondary" component="p">
 							{body}
@@ -48,7 +48,7 @@ const BlogDetail = ({ id, userId, title, body }) => {
 				</CardActionArea>
 				<CardActions>
 					<Button size="small" color="primary">
-						<UserItem userId={userId}/>
+						<UserItem userId={userId} />
 					</Button>
 				</CardActions>
 			</Card>
