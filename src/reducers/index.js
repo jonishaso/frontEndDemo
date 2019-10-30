@@ -8,15 +8,20 @@ const blogs = (blogs = [], action) => {
 			return blogs.filter(i => i !== action.id)
 		case 'INIT_BLOG':
 			return [...action.payload.data]
+		case 'USER_BLOG':
+			return [...action.payload.data]
 		default:
 			return blogs
 	}
 }
 
 const selectedBlog = (selectedBlog = null, action) => {
-	if (action.type === 'SELECT_BLOG') return action.payload
-	else if (action.type === 'DESELECT_BLOG') return null
-	return selectedBlog
+	switch (action.type) {
+		case 'SELECT_BLOG':
+			return action.payload
+		default:
+			return selectedBlog
+	}
 }
 
 const selectUser = (state = null, action) => {
@@ -27,8 +32,19 @@ const selectUser = (state = null, action) => {
 			return state
 	}
 }
+
+const comments = (state = [], action) => {
+	switch (action.type) {
+		case 'BLOG_COMMENTS':
+			return action.payload.data
+		default:
+			return state
+	}
+}
+
 export default combineReducers({
 	blogList: blogs,
 	selectedBlog: selectedBlog,
-	user: selectUser
+	user: selectUser,
+	commentList: comments
 })

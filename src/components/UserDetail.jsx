@@ -1,20 +1,24 @@
 import React from 'react'
-import { fetchUser } from '../actions/index'
 import { connect } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+
+import { fetchUser, fetchUserBlog } from '../actions/index'
 import BlogList from './BlogList'
+
+import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Avatar from '@material-ui/core/Avatar'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import List from '@material-ui/core/List'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import PhoneIcon from '@material-ui/icons/LocalPhone'
 import EmailIcon from '@material-ui/icons/Email'
 import WebIcon from '@material-ui/icons/Web'
+import FingerprintIcon from '@material-ui/icons/Fingerprint';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -40,6 +44,12 @@ const UserDetail = ({ user }) => {
 					<Avatar>{user.name.slice(0, 1)}</Avatar>
 				</ListItemAvatar>
 				<ListItemText primary={user.name} />
+			</ListItem>
+			<ListItem button>
+				<ListItemIcon>
+					<FingerprintIcon />
+				</ListItemIcon>
+				<ListItemText primary={user.id} />
 			</ListItem>
 			<ListItem button>
 				<ListItemIcon>
@@ -69,6 +79,7 @@ class User extends React.Component {
 			match: { params }
 		} = this.props
 		this.props.fetchUser(params.userId)
+		this.props.fetchUserBlog(params.userId)
 	}
 	render() {
 		let { userInfo, userBlogs } = this.props
@@ -88,10 +99,10 @@ class User extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 	return {
 		userInfo: state.user,
-		userBlogs: state.blogList.filter(i => i.userId == ownProps.match.params.userId)
+		userBlogs: state.blogList
 	}
 }
 export default connect(
 	mapStateToProps,
-	{ fetchUser }
+	{ fetchUser, fetchUserBlog }
 )(User)
