@@ -10,7 +10,8 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import UserItem from './UserItem'
+import UserName from './UserName'
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles({
 	card: {
@@ -47,9 +48,9 @@ const BlogDetail = ({ id, userId, title, body }) => {
 					</CardContent>
 				</CardActionArea>
 				<CardActions>
-					<Button size="small" color="primary">
-						<UserItem userId={userId} />
-					</Button>
+					<Link to={`/user/${userId}`} size="small" color="primary">
+						<UserName userId= {userId}/>
+					</Link>
 				</CardActions>
 			</Card>
 		</Grid>

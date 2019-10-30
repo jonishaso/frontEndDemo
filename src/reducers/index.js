@@ -19,10 +19,10 @@ const selectedBlog = (selectedBlog = null, action) => {
 	return selectedBlog
 }
 
-const selectUser = (state = [], action) => {
+const selectUser = (state = null, action) => {
 	switch (action.type) {
 		case 'SELECT_USER':
-			return [...state, action.payload.data]
+			return action.payload.data
 		default:
 			return state
 	}
@@ -30,5 +30,5 @@ const selectUser = (state = [], action) => {
 export default combineReducers({
 	blogList: blogs,
 	selectedBlog: selectedBlog,
-	users: selectUser
+	user: selectUser
 })
