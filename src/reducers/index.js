@@ -18,7 +18,7 @@ const blogs = (blogs = [], action) => {
 const selectedBlog = (selectedBlog = null, action) => {
 	switch (action.type) {
 		case 'SELECT_BLOG':
-			return action.payload
+			return action.payload.data
 		default:
 			return selectedBlog
 	}

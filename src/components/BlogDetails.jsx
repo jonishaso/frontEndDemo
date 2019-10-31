@@ -1,16 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchSingleBlog, fetchComments } from '../actions/index'
+import { fetchSingleBlog } from '../actions/index'
 
 import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Paper'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import UserName from './UserName'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-const useStyles = makeStyles({})
+const useStyles = makeStyles({
+	root: {padding : '20px'}
+})
 
-const Blog = ({ id, userId, title, body }) => {
+const Blog = props => {
+	const { id, userId, title, body } = props.blog
 	const classes = useStyles()
 	return (
 		<Paper className={classes.root}>
@@ -26,21 +29,24 @@ const Blog = ({ id, userId, title, body }) => {
 		</Paper>
 	)
 }
-class BlogDetail extends React.component {
-	componentDidMount() {}
+
+class BlogDetail extends React.Component {
+	componentDidMount() {
+		const { blogId } = this.props
+		this.props.fetchSingleBlog(blogId)
+	}
 	render() {
-		<Grid container>
-			<Grid item xs={12}>
-        <Blog />
-      </Grid>
-		</Grid>
+    console.log(this.props)
+		const blog = this.props.blog
+		return blog === null ? <CircularProgress /> : <Blog blog={blog} />
 	}
 }
+
 const mapStateToProps = state => ({
-	currentUser: state.user
+	blog: state.selectedBlog
 })
 
 export default connect(
 	mapStateToProps,
-	{ fetchSingleBlog, fetchComments }
+	{ fetchSingleBlog}
 )(BlogDetail)
