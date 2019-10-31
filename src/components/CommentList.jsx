@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchComments } from '../actions/index'
 
@@ -12,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles({
-	root: {padding : '20px'}
+	root: { padding: '20px' }
 })
 const CommentListDetails = props => {
 	const comments = props.comments
@@ -29,7 +30,7 @@ const CommentListDetails = props => {
 			className={classes.root}
 		>
 			{comments.map(i => (
-				<ListItem button>
+				<ListItem key={i.id} button>
 					<ListItemAvatar>
 						<Avatar>{i.email.slice(0, 1)}</Avatar>
 					</ListItemAvatar>
@@ -39,6 +40,15 @@ const CommentListDetails = props => {
 		</List>
 	)
 }
+CommentListDetails.prototype = {
+	comment: PropTypes.shape({
+		postId: PropTypes.number.isRequired,
+		id: PropTypes.number.isRequired,
+		name: PropTypes.string.isRequired,
+		email: PropTypes.string.isRequired,
+		body: PropTypes.string.isRequired
+	})
+}
 class CommentList extends React.Component {
 	componentDidMount() {
 		const { blogId } = this.props
@@ -46,9 +56,12 @@ class CommentList extends React.Component {
 	}
 	F
 	render() {
-    console.log(this.props)
 		const comments = this.props.comments
-		return comments.length === 0 ? <CircularProgress />: <CommentListDetails comments={comments} />
+		return comments.length === 0 ? (
+			<CircularProgress />
+		) : (
+			<CommentListDetails comments={comments} />
+		)
 	}
 }
 const mapStateToProps = state => ({

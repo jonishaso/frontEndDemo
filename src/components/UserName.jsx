@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { fetchUser } from '../actions/index'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
@@ -15,6 +16,18 @@ class UserName extends React.Component {
 			</Typography>
 		)
 	}
+}
+UserName.propTypes = {
+	user: PropTypes.shape({
+		id: PropTypes.number.isRequired,
+		name: PropTypes.string.isRequired,
+		username: PropTypes.string,
+		phone: PropTypes.string.isRequired,
+		email: PropTypes.string.isRequired,
+		website: PropTypes.string.isRequired,
+		address: PropTypes.any,
+		company: PropTypes.any
+	})
 }
 
 const mapStateToProps = (state, ownProps) => {

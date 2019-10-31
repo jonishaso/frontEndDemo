@@ -36,7 +36,6 @@ class BlogDetail extends React.Component {
 		this.props.fetchSingleBlog(blogId)
 	}
 	render() {
-    console.log(this.props)
 		const blog = this.props.blog
 		return blog === null ? <CircularProgress /> : <Blog blog={blog} />
 	}

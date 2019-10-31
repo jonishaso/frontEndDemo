@@ -1,10 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
 import { initBlog } from '../actions/index'
-import { Container } from '@material-ui/core'
-import CircularProgress from '@material-ui/core/CircularProgress';
 import BlogList from './BlogList'
 import PageButtons from './PageButtons'
+
+import Container from '@material-ui/core/Container'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const ITEMS_PER_PAGE = 9
 
@@ -39,23 +42,34 @@ class BlogContainer extends React.Component {
 		})
 	}
 	render() {
-		console.log(this.props)
 		let pageBlogs = []
 		let { firstItemIndex, nextItemIndex } = this.state
 		if (this.props.blogs.length > 0)
 			pageBlogs = this.props.blogs.slice(firstItemIndex, nextItemIndex)
 		return (
 			<Container maxWidth="md">
-				{this.props.blogs.length > 0 ? <BlogList blogs={pageBlogs} /> : <CircularProgress />}
+				{this.props.blogs.length > 0 ? (
+					<BlogList blogs={pageBlogs} />
+				) : (
+					<CircularProgress />
+				)}
 				<PageButtons forward={this.moveAfterward} afterward={this.moveForward} />
 			</Container>
 		)
 	}
 }
 
-const mapStateToProps = state => {
-	return { blogs: state.blogList }
+BlogContainer.propTypes = {
+	blogs: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.number,
+			userId: PropTypes.number,
+			title: PropTypes.string,
+			body: PropTypes.string
+		})
+	)
 }
+const mapStateToProps = state => ({ blogs: state.blogList })
 
 export default connect(
 	mapStateToProps,

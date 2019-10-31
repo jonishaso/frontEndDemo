@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
@@ -22,5 +23,9 @@ const PageButtons = ({ forward, afterward }) => {
 			</Grid>
 		</Grid>
 	)
+}
+PageButtons.prototype={
+	forward: PropTypes.number,
+	afterward: PropTypes.number
 }
 export default PageButtons

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import PropTypes from 'prop-types'
 import { fetchUser, fetchUserBlog } from '../actions/index'
 import BlogList from './BlogList'
 
@@ -18,7 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import PhoneIcon from '@material-ui/icons/LocalPhone'
 import EmailIcon from '@material-ui/icons/Email'
 import WebIcon from '@material-ui/icons/Web'
-import FingerprintIcon from '@material-ui/icons/Fingerprint';
+import FingerprintIcon from '@material-ui/icons/Fingerprint'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -72,30 +72,66 @@ const UserDetail = ({ user }) => {
 		</List>
 	)
 }
-
+UserDetail.propTypes = {
+	user: PropTypes.shape({
+		id: PropTypes.number.isRequired,
+		name: PropTypes.string.isRequired,
+		username: PropTypes.string,
+		phone: PropTypes.string.isRequired,
+		email: PropTypes.string.isRequired,
+		website: PropTypes.string.isRequired,
+		address: PropTypes.any,
+		company: PropTypes.any
+	})
+}
 class User extends React.Component {
+	state = { isValidId: true }
 	componentDidMount() {
 		const {
 			match: { params }
 		} = this.props
-		this.props.fetchUser(params.userId)
-		this.props.fetchUserBlog(params.userId)
+		let { userId } = params
+		if (Number.isInteger(Number(userId)) && 1 <= userId && userId <= 10) {
+			this.props.fetchUser(userId)
+			this.props.fetchUserBlog(userId)
+		} else this.setState({ isValidId: false })
 	}
 	render() {
 		let { userInfo, userBlogs } = this.props
-		return (
-			<Grid container spacing={2} alignItems="flex-start" justify="spread-around">
-				<Grid item md={4} sm={12}>
-					{userInfo === null ? <CircularProgress /> : <UserDetail user={userInfo} />}
+		if (this.state.isValidId)
+			return (
+				<Grid container spacing={2} alignItems="flex-start" justify="spread-around">
+					<Grid item md={4} sm={12}>
+						{userInfo === null ? <CircularProgress /> : <UserDetail user={userInfo} />}
+					</Grid>
+					<Grid item md={8} sm={12}>
+						<BlogList blogs={userBlogs} />
+					</Grid>
 				</Grid>
-				<Grid item md={8} sm={12}>
-					<BlogList blogs={userBlogs} />
-				</Grid>
-			</Grid>
-		)
+			)
+		else return <h2> Err: invalid User id </h2>
 	}
 }
-
+User.propTypes = {
+	userInfo: PropTypes.shape({
+		id: PropTypes.number.isRequired,
+		name: PropTypes.string.isRequired,
+		username: PropTypes.string,
+		phone: PropTypes.string.isRequired,
+		email: PropTypes.string.isRequired,
+		website: PropTypes.string.isRequired,
+		address: PropTypes.any,
+		company: PropTypes.any
+	}),
+	userBlogs: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.number.isRequired,
+			userId: PropTypes.number.isRequired,
+			title: PropTypes.string.isRequired,
+			body: PropTypes.string.isRequired
+		})
+	)
+}
 const mapStateToProps = (state, ownProps) => {
 	return {
 		userInfo: state.user,
